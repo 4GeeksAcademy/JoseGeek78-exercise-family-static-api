@@ -8,33 +8,44 @@ update this file to implement the following already declared methods:
 """
 from random import randint
 
-
 class FamilyStructure:
     def __init__(self, last_name):
         self.last_name = last_name
+
         # example list of members
-        self._members = [{
-            "id": self._generateId(),
-            "first_name": "John",
-            "last_name": last_name,
-            "age": 33,
-            "lucky_numbers": [7, 13, 22]
-        },
-            {
-            "id": self._generateId(),
-            "first_name": "Jane",
-            "last_name": last_name,
-            "age": 35,
-            "lucky_numbers": [10, 14, 3]
-        },
-            {
-            "id": self._generateId(),
-            "first_name": "Jimmy",
-            "last_name": last_name,
-            "age": 5,
-            "lucky_numbers": [1]
-        }
-        ]
+        self._members = [
+  {
+    "age": 5,
+    "first_name": "Jimmy",
+    "last_name":"Jackson",
+    "id":self._generateId(),
+    "lucky_numbers": [
+      1
+    ]
+  },
+  {
+    "age": 35,
+    "first_name": "Jane",
+    "last_name":"Jackson",
+    "id": self._generateId(),
+    "lucky_numbers": [
+      10,
+      14,
+      3
+    ]
+  },
+  {
+    "age": 35,
+    "first_name": "John",
+    "last_name":"Jackson",
+    "id": self._generateId(),
+    "lucky_numbers": [
+      7,
+      13,
+      22
+    ]
+  }
+]
 
     # read-only: Use this method to generate random members ID's when adding members into the list
     def _generateId(self):
@@ -42,36 +53,27 @@ class FamilyStructure:
 
     def add_member(self, member):
         # fill this method and update the return
-        #id = self._generateId()
-        last_name = self.last_name
-        #member["id"] = id
-        member["last_name"] = last_name
-        self._members.append(member)
-        return member
+      update_member={
+        "id":member.get("id", self._generateId()),
+        "last_name":self.last_name
+      }
+      member.update(update_member)
+      self._members.append(member)
+      return member
+       
 
     def delete_member(self, id):
         # fill this method and update the return
-        response = {
-            "status_code": 200,
-            "body": {
-                "done": True
-            }
-        }
-        members_filtered = [member for member in self._members if member["id"] != id]
-        
-        if self._members == members_filtered:
-            response["status_code"] = 400
-            response["body"]["done"] = False
-
-        self._members = members_filtered
-        return response
+        for member in self._members:
+            if (member["id"]==id):
+                self._members.remove(member)
+                return True
+        return False          
 
     def get_member(self, id):
-        # fill this method and update the return
-        selected_member = [member for member in self._members if member["id"] == id]
-        return selected_member
-
-
+        for member in self._members:
+            if member["id"] == id:
+                return member
 
     # this method is done, it returns a list with all the family members
     def get_all_members(self):
